@@ -1,10 +1,13 @@
 const express = require('express')
+
+const { validaDadosUsuario, verificaEmailExistente } = require('../middleware/validacoes')
+
 const { cadastroUsuario } = require('../controllers/usuarios')
 
 const rotas = express.Router()
 
-rotas.post('/usuario', cadastroUsuario)// cadastrar usuario
-rotas.post('/login', dsadasdasdas) // Login do usuário
+rotas.post('/usuario', validaDadosUsuario, verificaEmailExistente, cadastroUsuario)// cadastrar usuario
+rotas.post('/login',) // Login do usuário
 
 //rotas.use('Colocar validacao do token aqui') // Validações do token
 
