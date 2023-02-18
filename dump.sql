@@ -18,27 +18,27 @@ create table transacoes(
     valor integer not null,
     data date not null,
     categoria_id integer not null references categorias(id),
-    usuario_id integer not null references usuarios(id)
+    usuario_id integer not null references usuarios(id),
     tipo integer not null
 );
 
 insert into categorias
-(categorias)
+(descricao)
 values
-(Alimentação);
-(Assinaturas e Serviços);
-(Casa);
-(Mercado);
-(Cuidados Pessoais);
-(Educação);
-(Família);
-(Lazer);
-(Pets);
-(Presentes);
-(Roupas);
-(Saúde);
-(Transporte);
-(Salário);
-(Vendas);
-(Outras receitas);
-(Outras despesas);
+('Alimentação'),
+('Assinaturas e Serviços'),
+('Casa'),
+('Mercado'),
+('Cuidados Pessoais'),
+('Educação'),
+('Família'),
+('Lazer'),
+('Pets'),
+('Presentes'),
+('Roupas'),
+('Saúde'),
+('Transporte'),
+('Salário'),
+('Vendas'),
+('Outras receitas'),
+('Outras despesas')
