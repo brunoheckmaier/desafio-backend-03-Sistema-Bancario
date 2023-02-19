@@ -6,26 +6,23 @@ const cadastroUsuario = async (req, res) => {
 
     try {
 
-        if (!nome || !email || !senha) {
-            return
+        const senhaCriptografada = await bcrypt.hash(senha, 10)
+
+        const query = 'insert into usuarios (nome, email, senha) values ($1, $2, $3) returning id,nome,email'
+        const dados = await pool.query(query, [nome, email, senhaCriptografada]);
+
+        if (dados.rowCount == 0) {
+            return res.status(400).json({
+                mensagem: 'Nao foi possivel cadastrar o usuário'
+            })
         }
-
-        const senhaCriptografada = bcrypt.hash(senha, 10)
-
-        const novoUsuario = await pool.query(
-            'insert into usuarios (nome, email, senha) values ($1, $2, $3)',
-            [nome, email, senhaCriptografada]
-        )
-
-        return res.status(201).json(novoUsuario.rows[0])
+        return res.status(201).json(dados.rows[0])
 
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ mensagem: error.message })
-
+        return res.status(400).json({
+            mensagem: error.message
+        })
     }
-
-
 }
 
 const loginUsuario = async (req, res) => {

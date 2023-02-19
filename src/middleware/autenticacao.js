@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
 
-
 const validarToken = (req, res, next) => {
     const { authetication } = req.headers
 
@@ -12,7 +11,7 @@ const validarToken = (req, res, next) => {
         const usuario = jwt.verify(authetication, process.env.SENHA_JWT)
 
         req.usuario = usuario
-        console.log(usuario);
+
         next()
     } catch (error) {
         return res.status(401).json({ mensagem: error.message })
