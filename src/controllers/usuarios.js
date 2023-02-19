@@ -57,7 +57,14 @@ const loginUsuario = async (req, res) => {
 }
 
 const detalharUsuario = async (req, res) => {
-    return res.status(200).json('Entrei em detalhar')
+    try {
+        const { iat, exp, ...informacaoDoUsuario } = req.usuario
+        return res.status(200).json(informacaoDoUsuario)
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }
 }
 
 const atualizarUsuario = async (req, res) => {
