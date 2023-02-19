@@ -4,10 +4,15 @@ const { cadastroUsuario } = require('../controllers/usuarios')
 const rotas = express.Router()
 
 rotas.post('/usuario', cadastroUsuario)// cadastrar usuario
-rotas.post('/login', dsadasdasdas) // Login do usuário
+rotas.post('/login',) // Login do usuário
 
 //rotas.use('Colocar validacao do token aqui') // Validações do token
 
+
+
+module.exports = rotas
+
+/*
 rotas.get('/usuario',) // Detalhar usuário
 rotas.put('/usuario',) // Atualizar usuário
 rotas.get('/categoria',) // Listar categorias
@@ -17,11 +22,6 @@ rotas.post('/transacao',) // Cadastrar transação para o usuário logado
 rotas.put('/transacao/:id',) // Atualizar transação do usuário logado
 rotas.delete('/transacao/:id',) // Excluir transação do usuário logado
 rotas.get('/transacao/extrato',) // Obter extrato de transações
-
-
-module.exports = rotas
-
-/*
 
 EXTRA!!!
 

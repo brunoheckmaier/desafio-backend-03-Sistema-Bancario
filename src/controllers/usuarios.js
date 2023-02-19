@@ -8,14 +8,14 @@ const cadastroUsuario = async (req, res) => {
         const senhaCriptografada = bcrypt.hash(senha, 10)
 
         const novoUsuario = await pool.query(
-            'insert into usuarios (nome, email, senha) values ($1, $2, $3)'
+            'insert into usuarios (nome, email, senha) values ($1, $2, $3)',
             [nome, email, senhaCriptografada]
         )
 
         return res.status(201).json(novoUsuario.rows[0])
 
     } catch (error) {
-
+        console.log(error);
         return res.status(500).json({ mensagem: error.message })
 
     }
