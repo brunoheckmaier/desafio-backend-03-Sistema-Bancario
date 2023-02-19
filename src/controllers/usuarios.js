@@ -5,6 +5,11 @@ const cadastroUsuario = async (req, res) => {
     const { nome, email, senha } = req.body
 
     try {
+
+        if (!nome || !email || !senha) {
+            return
+        }
+
         const senhaCriptografada = bcrypt.hash(senha, 10)
 
         const novoUsuario = await pool.query(
