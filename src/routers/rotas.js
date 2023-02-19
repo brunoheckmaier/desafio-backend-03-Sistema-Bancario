@@ -12,12 +12,13 @@ const { cadastroUsuario,
     detalharUsuario
 } = require('../controllers/usuarios')
 
+const { validarToken } = require('../middleware/autenticacao')
 const rotas = express.Router()
 
 rotas.post('/usuario', validaDadosUsuario, verificaEmailExistente, cadastroUsuario)// cadastrar usuario
 rotas.post('/login', validaEmailSenha, confereSeEmailEstaCerto, confereSeSenhaEstaCerto, loginUsuario) // Login do usuário
 
-//rotas.use('Colocar validacao do token aqui') // Validações do token
+rotas.use(validarToken) // Validações do token
 
 rotas.get('/usuario', detalharUsuario) // Detalhar usuário
 rotas.put('/usuario',) // Atualizar usuário

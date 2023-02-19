@@ -57,15 +57,7 @@ const loginUsuario = async (req, res) => {
 }
 
 const detalharUsuario = async (req, res) => {
-    //esperando fazer a validação do token
-
-    /*try {
-        return res.status(200).json(usuario)
-    } catch (error) {
-        return res.status(400).json({
-            mensagem: error.message
-        })
-    }*/
+    return res.status(200).json('Entrei em detalhar')
 }
 
 const atualizarUsuario = async (req, res) => {
