@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt')
 const pool = require('../connection/conexao')
+const jwt = require('jsonwebtoken')
+
 
 const cadastroUsuario = async (req, res) => {
     const { nome, email, senha } = req.body
@@ -26,10 +28,37 @@ const cadastroUsuario = async (req, res) => {
 }
 
 const loginUsuario = async (req, res) => {
-    return res.status(400).json("OK")
+    // configuração do token
+    try {
+        let { id, nome, email } = req.usuario
+        const token = jwt.sign(
+            {
+                id,
+                nome,
+                email
+            },
+            process.env.SENHAJWT,
+            {
+                expiresIn: '2h'
+            }
+        )
+        // Estrutura a resposta com os dados do usuario e o token gerado a cima.
+        // req.usuario feito no middleware validacoes em 'confereSeSenhaEstaCerto' 
+        return res.status(200).json({
+            usuario: req.usuario,
+            token
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }
 }
 
 const detalharUsuario = async (req, res) => {
+    //esperando fazer a validação do token
+
     /*try {
         return res.status(200).json(usuario)
     } catch (error) {

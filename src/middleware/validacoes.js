@@ -101,6 +101,11 @@ const confereSeSenhaEstaCerto = async (req, res, next) => {
             })
         }
 
+        // Como ja buscamos os dados do usuario na query a cima, 
+        // Ja monta o req com os dados do usuario. para utilizar posteriormente
+        let { senha: senhaNula, ...dadosDoUsuarioLogado } = usuario
+        req.usuario = dadosDoUsuarioLogado
+
         next()
     } catch (error) {
         return res.status(400).json({
