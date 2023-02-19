@@ -1,17 +1,25 @@
 const express = require('express')
 
-const { validaDadosUsuario, verificaEmailExistente } = require('../middleware/validacoes')
+const { validaDadosUsuario,
+    verificaEmailExistente,
+    validaEmailSenha,
+    confereSeEmailEstaCerto,
+    confereSeSenhaEstaCerto
+} = require('../middleware/validacoes')
 
-const { cadastroUsuario } = require('../controllers/usuarios')
+const { cadastroUsuario,
+    loginUsuario,
+    detalharUsuario
+} = require('../controllers/usuarios')
 
 const rotas = express.Router()
 
 rotas.post('/usuario', validaDadosUsuario, verificaEmailExistente, cadastroUsuario)// cadastrar usuario
-rotas.post('/login',) // Login do usuário
+rotas.post('/login', validaEmailSenha, confereSeEmailEstaCerto, confereSeSenhaEstaCerto, loginUsuario) // Login do usuário
 
 //rotas.use('Colocar validacao do token aqui') // Validações do token
 
-rotas.get('/usuario',) // Detalhar usuário
+rotas.get('/usuario', detalharUsuario) // Detalhar usuário
 rotas.put('/usuario',) // Atualizar usuário
 rotas.get('/categoria',) // Listar categorias
 rotas.get('/transacao',) // Listar transações do usuário logado

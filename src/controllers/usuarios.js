@@ -26,11 +26,17 @@ const cadastroUsuario = async (req, res) => {
 }
 
 const loginUsuario = async (req, res) => {
-
+    return res.status(400).json("OK")
 }
 
 const detalharUsuario = async (req, res) => {
-
+    /*try {
+        return res.status(200).json(usuario)
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }*/
 }
 
 const atualizarUsuario = async (req, res) => {
