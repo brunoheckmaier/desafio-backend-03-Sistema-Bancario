@@ -68,7 +68,21 @@ const detalharUsuario = async (req, res) => {
 }
 
 const atualizarUsuario = async (req, res) => {
+    const { nome, email, senha } = req.body
 
+    try {
+        const senhaCriptografada = await bcrypt.hash(senha, 10)
+
+        const query = 'update usuarios set nome = $1, email = $2, senha = $3 where id = $4'
+        const dados = await pool.query(query, [nome, email, senhaCriptografada, req.usuario.id]);
+
+        return res.status(200).json()
+
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }
 }
 
 module.exports = {

@@ -9,7 +9,8 @@ const { validaDadosUsuario,
 
 const { cadastroUsuario,
     loginUsuario,
-    detalharUsuario
+    detalharUsuario,
+    atualizarUsuario
 } = require('../controllers/usuarios')
 
 const { validarToken } = require('../middleware/autenticacao')
@@ -21,7 +22,7 @@ rotas.post('/login', validaEmailSenha, confereSeEmailEstaCerto, confereSeSenhaEs
 rotas.use(validarToken) // Validações do token
 
 rotas.get('/usuario', detalharUsuario) // Detalhar usuário
-rotas.put('/usuario',) // Atualizar usuário
+rotas.put('/usuario', validaDadosUsuario, verificaEmailExistente, atualizarUsuario) // Atualizar usuário
 rotas.get('/categoria',) // Listar categorias
 rotas.get('/transacao',) // Listar transações do usuário logado
 rotas.get('/tansacao/:id',) // Detalhar uma transação do usuário logado
