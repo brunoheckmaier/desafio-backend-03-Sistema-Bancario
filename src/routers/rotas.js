@@ -13,6 +13,8 @@ const { cadastroUsuario,
     atualizarUsuario
 } = require('../controllers/usuarios')
 
+const { listarCategorias } = require('../controllers/categorias')
+
 const { validarToken } = require('../middleware/autenticacao')
 const rotas = express.Router()
 
@@ -23,7 +25,7 @@ rotas.use(validarToken) // Validações do token
 
 rotas.get('/usuario', detalharUsuario) // Detalhar usuário
 rotas.put('/usuario', validaDadosUsuario, verificaEmailExistente, atualizarUsuario) // Atualizar usuário
-rotas.get('/categoria',) // Listar categorias
+rotas.get('/categoria', listarCategorias) // Listar categorias
 rotas.get('/transacao',) // Listar transações do usuário logado
 rotas.get('/tansacao/:id',) // Detalhar uma transação do usuário logado
 rotas.post('/transacao',) // Cadastrar transação para o usuário logado

@@ -36,7 +36,7 @@ const verificaEmailExistente = async (req, res, next) => {
 
         if (busca.rowCount > 0) {
             return res.status(400).json({
-                mensagem: 'Este e-mail ja foi cadastrado'
+                mensagem: 'Já existe usuário cadastrado com o e-mail informado.'
             })
         }
         next()
