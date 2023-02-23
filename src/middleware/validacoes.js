@@ -27,6 +27,7 @@ const validaDadosUsuario = (req, res, next) => {
         })
     }
 }
+
 const verificaEmailExistente = async (req, res, next) => {
     let { email } = req.body
     try {
@@ -46,6 +47,7 @@ const verificaEmailExistente = async (req, res, next) => {
         })
     }
 }
+
 const validaEmailSenha = (req, res, next) => {
     let { email, senha } = req.body
 
@@ -67,6 +69,7 @@ const validaEmailSenha = (req, res, next) => {
         })
     }
 }
+
 const confereSeEmailEstaCerto = async (req, res, next) => {
     let { email } = req.body
     try {
@@ -86,6 +89,7 @@ const confereSeEmailEstaCerto = async (req, res, next) => {
         })
     }
 }
+
 const confereSeSenhaEstaCerto = async (req, res, next) => {
     const { email, senha } = req.body
 
@@ -114,10 +118,119 @@ const confereSeSenhaEstaCerto = async (req, res, next) => {
     }
 
 }
+
+const validarDescricao = (req, res, next) => {
+    const { descricao } = req.body
+
+    try {
+        if (!descricao) {
+            return res.status(400).json({ mensagem: 'Todos os campos obrigatórios devem ser informados.' })
+        }
+
+        next()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.mensage
+        })
+    }
+}
+
+const validarValor = (req, res, next) => {
+    const { valor } = req.body
+
+    try {
+
+        if (!valor) {
+            return res.status(400).json({ mensagem: 'Todos os campos obrigatórios devem ser informados.' })
+        }
+
+        next()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.mensage
+        })
+    }
+}
+
+const validarData = (req, res, next) => {
+    const { data } = req.body
+
+    try {
+
+        if (!data) {
+            return res.status(400).json({ mensagem: 'Todos os campos obrigatórios devem ser informados.' })
+        }
+
+        next()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.mensage
+        })
+    }
+}
+
+const validarCategoria = async (req, res, next) => {
+    const { categoria_id } = req.body
+
+    try {
+        if (!categoria_id) {
+            return res.status(400).json({ mensagem: 'Todos os campos obrigatórios devem ser informados.' })
+        }
+
+        const categoria = await pool.query('select * from categorias where id = $1', [categoria_id])
+
+        if (categoria.rowCount === 0) {
+            return res.status(404).json({ mensagem: 'Categora invalida.' })
+        }
+
+        next()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.mensage
+        })
+    }
+}
+
+const validarTipo = (req, res, next) => {
+    const { tipo } = req.body
+
+    try {
+        if (!tipo) {
+            return res.status(400).json({ mensagem: 'Todos os campos obrigatórios devem ser informados.' })
+        }
+
+        if (tipo != 'entrada' && tipo != 'saida') {
+            return res.status(400).json({ mensagem: "Tipo inválido. Deve ser 'entrada' ou 'saida'." })
+        }
+
+        next()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.mensage
+        })
+    }
+}
+
+
+// 200 (OK) = requisição bem sucedida
+// 201 (Created) = requisição bem sucedida e algo foi criado
+// 204 (No Content) = requisição bem sucedida, sem conteúdo no corpo da resposta
+// 400 (Bad Request) = o servidor não entendeu a requisição pois está com uma sintaxe/formato inválido
+// 401 (Unauthorized) = o usuário não está autenticado (logado)
+// 403 (Forbidden) = o usuário não tem permissão de acessar o recurso solicitado
+// 404 (Not Found) = o servidor não pode encontrar o recurso solicitado
+
+
 module.exports = {
     validaDadosUsuario,
     verificaEmailExistente,
     validaEmailSenha,
     confereSeEmailEstaCerto,
-    confereSeSenhaEstaCerto
+    confereSeSenhaEstaCerto,
+    validarData,
+    validarDescricao,
+    validarCategoria,
+    validarTipo,
+    validarValor
+
 } 

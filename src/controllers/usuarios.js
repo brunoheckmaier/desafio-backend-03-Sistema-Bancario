@@ -21,6 +21,7 @@ const cadastroUsuario = async (req, res) => {
         return res.status(201).json(dados.rows[0])
 
     } catch (error) {
+        console.log(error);
         return res.status(400).json({
             mensagem: error.message
         })
@@ -39,7 +40,7 @@ const loginUsuario = async (req, res) => {
             },
             process.env.SENHAJWT,
             {
-                expiresIn: '2h'
+                expiresIn: '10h'
             }
         )
         // Estrutura a resposta com os dados do usuario e o token gerado a cima.

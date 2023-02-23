@@ -11,6 +11,7 @@ const validarToken = (req, res, next) => {
         //Esse .split é para tirar o bearer q vem antes do Token
         const token = authorization.split(' ')[1]
         const usuario = jwt.verify(token, process.env.SENHAJWT)
+
         req.usuario = usuario
 
         next()

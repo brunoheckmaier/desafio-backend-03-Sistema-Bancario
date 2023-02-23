@@ -42,3 +42,6 @@ values
 ('Vendas'),
 ('Outras receitas'),
 ('Outras despesas')
+
+
+alter table transacoes alter column tipo type text;

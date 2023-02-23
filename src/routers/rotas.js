@@ -1,21 +1,13 @@
 const express = require('express')
 
-const { validaDadosUsuario,
-    verificaEmailExistente,
-    validaEmailSenha,
-    confereSeEmailEstaCerto,
-    confereSeSenhaEstaCerto
-} = require('../middleware/validacoes')
+const { validaDadosUsuario, verificaEmailExistente, validaEmailSenha, confereSeEmailEstaCerto, confereSeSenhaEstaCerto, validarDescricao, validarValor, validarData, validarCategoria, validarTipo } = require('../middleware/validacoes')
 
-const { cadastroUsuario,
-    loginUsuario,
-    detalharUsuario,
-    atualizarUsuario
-} = require('../controllers/usuarios')
+const { cadastroUsuario, loginUsuario, detalharUsuario, atualizarUsuario } = require('../controllers/usuarios')
 
 const { listarCategorias } = require('../controllers/categorias')
 
 const { validarToken } = require('../middleware/autenticacao')
+const { listarTransacoes, detalharTransacao, cadastrarTransacao } = require('../controllers/transacoes')
 const rotas = express.Router()
 
 rotas.post('/usuario', validaDadosUsuario, verificaEmailExistente, cadastroUsuario)// cadastrar usuario
@@ -26,9 +18,9 @@ rotas.use(validarToken) // Validações do token
 rotas.get('/usuario', detalharUsuario) // Detalhar usuário
 rotas.put('/usuario', validaDadosUsuario, verificaEmailExistente, atualizarUsuario) // Atualizar usuário
 rotas.get('/categoria', listarCategorias) // Listar categorias
-rotas.get('/transacao',) // Listar transações do usuário logado
-rotas.get('/tansacao/:id',) // Detalhar uma transação do usuário logado
-rotas.post('/transacao',) // Cadastrar transação para o usuário logado
+rotas.get('/transacao', listarTransacoes) // Listar transações do usuário logado
+rotas.get('/transacao/:idTransacao', detalharTransacao) // Detalhar uma transação do usuário logado
+rotas.post('/transacao', validarDescricao, validarValor, validarData, validarCategoria, validarTipo, cadastrarTransacao) // Cadastrar transação para o usuário logado
 rotas.put('/transacao/:id',) // Atualizar transação do usuário logado
 rotas.delete('/transacao/:id',) // Excluir transação do usuário logado
 rotas.get('/transacao/extrato',) // Obter extrato de transações
