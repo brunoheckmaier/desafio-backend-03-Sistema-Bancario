@@ -211,6 +211,26 @@ const validarTipo = (req, res, next) => {
     }
 }
 
+const validarSeTemTransacao = async (req, res, next) => {
+    const { id } = req.params
+
+    try {
+        const query = 'select * from transacoes where id = $1'
+        const verifica = [id]
+        const busca = await pool.query(query, verifica)
+
+        if (busca.rowCount == 0) {
+            return res.status(400).json({
+                mensagem: 'Transação não encontrada.'
+            })
+        }
+        next()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.mensage
+        })
+    }
+}
 
 // 200 (OK) = requisição bem sucedida
 // 201 (Created) = requisição bem sucedida e algo foi criado
@@ -231,6 +251,7 @@ module.exports = {
     validarDescricao,
     validarCategoria,
     validarTipo,
-    validarValor
+    validarValor,
+    validarSeTemTransacao
 
 } 
