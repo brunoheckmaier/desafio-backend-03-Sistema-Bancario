@@ -78,7 +78,7 @@ const cadastrarTransacao = async (req, res) => {
     }
 }
 
-const editarTransacao = async (req, res) => {
+const atualizarTransacao = async (req, res) => {
     const { descricao, valor, data, categoria_id, tipo } = req.body
     const { id } = req.params
     const usuario_id = req.usuario.id
@@ -116,5 +116,5 @@ module.exports = {
     listarTransacoes,
     detalharTransacao,
     cadastrarTransacao,
-    editarTransacao
+    atualizarTransacao
 }
