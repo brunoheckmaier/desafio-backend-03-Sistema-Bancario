@@ -102,8 +102,21 @@ const atualizarTransacao = async (req, res) => {
 
 }
 
-const removerTransacao = (req, res) => {
+const removerTransacao = async (req, res) => {
+    const { id } = req.params
 
+    try {
+        const query = 'delete from transacoes where id = $1'
+        const verifica = [id]
+        const busca = await pool.query(query, verifica)
+
+        return res.status(204).json()
+
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }
 }
 
 const obterExtratoTransacao = (req, res) => {
@@ -116,5 +129,9 @@ module.exports = {
     listarTransacoes,
     detalharTransacao,
     cadastrarTransacao,
+<<<<<<< HEAD
     atualizarTransacao
+=======
+    removerTransacao
+>>>>>>> 372ccfe6d4232da3924829997acf20d9b4aeb4c0
 }
