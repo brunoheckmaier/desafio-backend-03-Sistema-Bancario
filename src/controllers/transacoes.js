@@ -119,9 +119,36 @@ const removerTransacao = async (req, res) => {
     }
 }
 
-const obterExtratoTransacao = (req, res) => {
+const obterExtratoTransacao = async (req, res) => {
+    const usuario_id = req.usuario.id
+
+    try {
+        const valorSaida = await pool.query("select sum(valor) as totalSaida from transacoes where usuario_id = $1 AND tipo = 'saida'", [usuario_id])
+
+        const valorEntrada = await pool.query("select sum(valor) as totalEntrada from transacoes where usuario_id = $1 AND tipo = 'entrada'", [usuario_id])
+
+        if (valorSaida.rows[0].totalsaida === null) {
+            valorSaida.rows[0].totalsaida = 0
+        }
+
+        if (valorEntrada.rows[0].totalentrada === null) {
+            valorEntrada.rows[0].totalentrada = 0
+        }
+
+        console.log(valorEntrada.rows[0].totalentrada);
+        return res.status(200).json({
+            entrada: valorEntrada.rows[0].totalentrada,
+            saida: valorSaida.rows[0].totalsaida
+        })
+
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }
 
 }
+
 
 //const filtrarTransacaoCategoria = (req, res) => {}  EXTRA!!
 
@@ -129,9 +156,7 @@ module.exports = {
     listarTransacoes,
     detalharTransacao,
     cadastrarTransacao,
-<<<<<<< HEAD
-    atualizarTransacao
-=======
-    removerTransacao
->>>>>>> 372ccfe6d4232da3924829997acf20d9b4aeb4c0
+    atualizarTransacao,
+    removerTransacao,
+    obterExtratoTransacao
 }

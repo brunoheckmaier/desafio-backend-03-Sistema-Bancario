@@ -7,7 +7,7 @@ const { cadastroUsuario, loginUsuario, detalharUsuario, atualizarUsuario } = req
 const { listarCategorias } = require('../controllers/categorias')
 
 const { validarToken } = require('../middleware/autenticacao')
-const { listarTransacoes, detalharTransacao, cadastrarTransacao, atualizarTransacao, removerTransacao } = require('../controllers/transacoes')
+const { listarTransacoes, detalharTransacao, cadastrarTransacao, atualizarTransacao, removerTransacao, obterExtratoTransacao } = require('../controllers/transacoes')
 const rotas = express.Router()
 
 rotas.post('/usuario', validaDadosUsuario, verificaEmailExistente, cadastroUsuario)// cadastrar usuario
@@ -19,11 +19,11 @@ rotas.get('/usuario', detalharUsuario) // Detalhar usuário
 rotas.put('/usuario', validaDadosUsuario, verificaEmailExistente, atualizarUsuario) // Atualizar usuário
 rotas.get('/categoria', listarCategorias) // Listar categorias
 rotas.get('/transacao', listarTransacoes) // Listar transações do usuário logado
-rotas.get('/transacao/:idTransacao', detalharTransacao) // Detalhar uma transação do usuário logado
+rotas.get('/transacao/extrato', obterExtratoTransacao) // Obter extrato de transações
+rotas.get('/transacao/:id', detalharTransacao) // Detalhar uma transação do usuário logado
 rotas.post('/transacao', validarDescricao, validarValor, validarData, validarCategoria, validarTipo, cadastrarTransacao) // Cadastrar transação para o usuário logado
 rotas.put('/transacao/:id', validarDescricao, validarValor, validarData, validarCategoria, validarTipo, atualizarTransacao) // Atualizar transação do usuário logado
 rotas.delete('/transacao/:id', validarSeTemTransacao, removerTransacao) // Excluir transação do usuário logado
-rotas.get('/transacao/extrato',) // Obter extrato de transações
 
 
 module.exports = rotas
