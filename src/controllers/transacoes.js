@@ -44,7 +44,7 @@ const cadastrarTransacao = async (req, res) => {
     const { tipo, descricao, valor, data, categoria_id } = req.body
     const { id } = req.usuario
 
-    console.log(id);
+
     try {
 
         const descricaoCategoria = await pool.query('select * from categorias where id = $1', [categoria_id])
@@ -78,7 +78,27 @@ const cadastrarTransacao = async (req, res) => {
     }
 }
 
-const editarTransacao = (req, res) => {
+const editarTransacao = async (req, res) => {
+    const { descricao, valor, data, categoria_id, tipo } = req.body
+    const { id } = req.params
+    const usuario_id = req.usuario.id
+
+    try {
+
+        const transacao = await pool.query('select * from transacoes where usuario_id = $1 and id = $2', [usuario_id, id])
+
+        if (transacao.rowCount == 0) {
+            return res.status(404).json({ mensagem: 'Transacao nao encontrada.' })
+        }
+
+        await pool.query("UPDATE transacoes SET descricao = $1, valor = $2, data = $3, categoria_id = $4, tipo = $5 WHERE usuario_id = $6 and id = $7", [descricao, valor, data, categoria_id, tipo, usuario_id, id])
+
+        return res.status(204).json()
+    } catch (error) {
+        return res.status(400).json({
+            mensagem: error.message
+        })
+    }
 
 }
 
@@ -95,5 +115,6 @@ const obterExtratoTransacao = (req, res) => {
 module.exports = {
     listarTransacoes,
     detalharTransacao,
-    cadastrarTransacao
+    cadastrarTransacao,
+    editarTransacao
 }
